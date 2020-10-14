@@ -39,10 +39,23 @@ function modifyColorOptions(selectbox, text, value) {
     selectbox.options.add(optn);
 }
 
+
+//Scans regex for the design and color, so that the correct t-shirts show up when you select that design
 designDropdown.addEventListener('change', (event) => {
-//feed to modify color options so the regex match applies design->color
-    
+    modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
+    const designType = /^\D*\s-\s(\D*)$/;
+    const selection = event.target.options[event.target.selectedIndex].innerHTML; //supported by Tanerax https://stackoverflow.com/questions/5913/getting-the-text-from-a-drop-down-box
+    const designPick = (selection.replace(designType, "$1"));
+    for (let i = 0; i < colorDropdown.length; i++) {
+        const shirtType = /^\D*\((\D*) shirt only\)/;
+        if (colorDropdown[i].text.replace(shirtType, "$1") === designPick) {
+            colorDropdown[i].hidden = false;
+        } else{
+            colorDropdown[i].hidden = true;
+        }
+    }
 })
 
+//runtime
 pageLoad();
 modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
