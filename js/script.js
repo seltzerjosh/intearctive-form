@@ -81,6 +81,39 @@ document.querySelector('.activities').addEventListener('change', (e) => {
     }
 })
 
+//Modifies payment section
+function formatDiv(text) {
+    if (text === 'credit-card')
+        return 'credit card';
+    else {
+        return text
+    }
+}
+
+//show and hide payment info on change from dropdown
+const paymentSelection = document.getElementById('payment');
+paymentSelection.remove(0, 1); //hides the 'select payment method' selection
+paymentSelection[0].selected = true; //sets default to creditcard
+paymentSelection.parentNode.querySelectorAll('div')[4].style.display = 'none'; //hides paypal by default
+paymentSelection.parentNode.querySelectorAll('div')[5].style.display = 'none'; //hides bitcoin by default
+
+paymentSelection.addEventListener('change', (e) => {
+    const selectedPayment = e.target[e.target.selectedIndex].value;
+    const paymentDivs = e.target.parentNode.querySelectorAll('div');
+    for (let j = 0; j < paymentDivs.length; j++) {
+        for (let i = 0; i < paymentSelection.length; i++) {
+            if (formatDiv(paymentDivs[j].id) === selectedPayment) {
+                paymentDivs[j].style.display = 'block';
+            } else if (formatDiv(paymentDivs[j].id)=='') { //avoids trouble of non-id'd children divs)
+                paymentDivs[j].style.display = 'block';
+            } else {
+                paymentDivs[j].style.display = 'none';
+            }
+        }
+    }
+
+})
+
 //runtime
 pageLoad();
 modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
