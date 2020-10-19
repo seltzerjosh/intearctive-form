@@ -50,8 +50,33 @@ designDropdown.addEventListener('change', (event) => {
         const shirtType = /^\D*\((\D*) shirt only\)/;
         if (colorDropdown[i].text.replace(shirtType, "$1") === designPick) {
             colorDropdown[i].hidden = false;
-        } else{
+        } else {
             colorDropdown[i].hidden = true;
+        }
+    }
+})
+
+//Modifies instruction on Color Dropdown default
+designDropdown.addEventListener('change', (e) => {
+    if (e.target[e.target.selectedIndex].value === 'Select Theme') {
+        modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
+    } else {
+        modifyColorOptions(colorDropdown, 'Choose a Color', 'not-chosen');
+    }
+})
+
+//Disables checkboxes based on timeslots
+const checkboxes = document.querySelectorAll('.activities input');
+document.querySelector('.activities').addEventListener('change', (e) => {
+    const clicked = e.target;
+    const clickedType = e.target.getAttribute('data-day-and-time');
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (clicked !== checkboxes[i] && clickedType === checkboxes[i].getAttribute('data-day-and-time')) {
+            if (clicked.checked) {
+                checkboxes[i].disabled = true;
+            } else {
+                checkboxes[i].disabled = false;
+            }
         }
     }
 })
