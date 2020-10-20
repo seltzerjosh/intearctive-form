@@ -32,6 +32,7 @@ function modifyColorOptions(selectbox, text, value) {
     const optn = document.createElement('OPTION');
     optn.text = text;
     optn.value = value;
+    optn.id = 'not-chosen';
     optn.selected = true;
     for (let i = 0; i < selectbox.length; i++) {
         selectbox[i].hidden = true;
@@ -61,7 +62,7 @@ designDropdown.addEventListener('change', (e) => {
     if (e.target[e.target.selectedIndex].value === 'Select Theme') {
         modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
     } else {
-        modifyColorOptions(colorDropdown, 'Choose a Color', 'not-chosen');
+        document.getElementById('.not-chosen').value = 'Choose a Color';
     }
 })
 
