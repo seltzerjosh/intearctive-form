@@ -32,7 +32,7 @@ function modifyColorOptions(selectbox, text, value) {
     const optn = document.createElement('OPTION');
     optn.text = text;
     optn.value = value;
-    optn.id = 'not-chosen';
+    optn.id = value;
     optn.selected = true;
     for (let i = 0; i < selectbox.length; i++) {
         selectbox[i].hidden = true;
@@ -43,7 +43,7 @@ function modifyColorOptions(selectbox, text, value) {
 
 //Scans regex for the design and color, so that the correct t-shirts show up when you select that design
 designDropdown.addEventListener('change', (event) => {
-    modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
+    document.getElementById('not-chosen').text = 'Choose a Design';
     const designType = /^\D*\s-\s(\D*)$/;
     const selection = event.target.options[event.target.selectedIndex].innerHTML; //supported by Tanerax https://stackoverflow.com/questions/5913/getting-the-text-from-a-drop-down-box
     const designPick = (selection.replace(designType, "$1"));
@@ -60,9 +60,9 @@ designDropdown.addEventListener('change', (event) => {
 //Modifies instruction on Color Dropdown default
 designDropdown.addEventListener('change', (e) => {
     if (e.target[e.target.selectedIndex].value === 'Select Theme') {
-        modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
+        document.getElementById('not-chosen').text = 'Choose a Design';
     } else {
-        document.getElementById('.not-chosen').value = 'Choose a Color';
+        document.getElementById('not-chosen').text = 'Choose a Color';
     }
 })
 
