@@ -3,6 +3,8 @@ const userName = document.getElementById('name');
 const userTitle = document.getElementById('title');
 const otherTitle = document.getElementById('other-title');
 const otherTitleLabel = otherTitle.previousElementSibling;
+//Make variable for the cost of selected events
+let totalCost = 0;
 
 //First set of instructions - focus and hide elements
 function pageLoad() {
@@ -44,6 +46,7 @@ function modifyColorOptions(selectbox, text, value) {
 //Scans regex for the design and color, so that the correct t-shirts show up when you select that design
 designDropdown.addEventListener('change', (event) => {
     document.getElementById('not-chosen').text = 'Choose a Design';
+    document.getElementById('not-chosen').selected = true;
     const designType = /^\D*\s-\s(\D*)$/;
     const selection = event.target.options[event.target.selectedIndex].innerHTML; //supported by Tanerax https://stackoverflow.com/questions/5913/getting-the-text-from-a-drop-down-box
     const designPick = (selection.replace(designType, "$1"));
@@ -80,6 +83,11 @@ document.querySelector('.activities').addEventListener('change', (e) => {
             }
         }
     }
+    if (clicked.checked) {
+        totalCost += parseInt(clicked.getAttribute('data-cost'));
+    } else {
+        totalCost -= parseInt(clicked.getAttribute('data-cost'));
+    }
 })
 
 //Modifies payment section
@@ -97,7 +105,7 @@ paymentSelection.remove(0, 1); //hides the 'select payment method' selection
 paymentSelection[0].selected = true; //sets default to creditcard
 paymentSelection.parentNode.querySelectorAll('div')[4].style.display = 'none'; //hides paypal by default
 paymentSelection.parentNode.querySelectorAll('div')[5].style.display = 'none'; //hides bitcoin by default
-
+//Changes the payment selected based on drop-down
 paymentSelection.addEventListener('change', (e) => {
     const selectedPayment = e.target[e.target.selectedIndex].value;
     const paymentDivs = e.target.parentNode.querySelectorAll('div');
@@ -105,7 +113,7 @@ paymentSelection.addEventListener('change', (e) => {
         for (let i = 0; i < paymentSelection.length; i++) {
             if (formatDiv(paymentDivs[j].id) === selectedPayment) {
                 paymentDivs[j].style.display = 'block';
-            } else if (formatDiv(paymentDivs[j].id)=='') { //avoids trouble of non-id'd children divs)
+            } else if (formatDiv(paymentDivs[j].id) == '') { //avoids trouble of non-id'd children divs)
                 paymentDivs[j].style.display = 'block';
             } else {
                 paymentDivs[j].style.display = 'none';
@@ -118,3 +126,4 @@ paymentSelection.addEventListener('change', (e) => {
 //runtime
 pageLoad();
 modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
+
