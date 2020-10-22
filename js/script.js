@@ -71,7 +71,8 @@ designDropdown.addEventListener('change', (e) => {
 
 //Disables checkboxes based on timeslots
 const checkboxes = document.querySelectorAll('.activities input');
-document.querySelector('.activities').addEventListener('change', (e) => {
+const activityBoxes = document.querySelector('.activities');
+activityBoxes.addEventListener('change', (e) => {
     const clicked = e.target;
     const clickedType = e.target.getAttribute('data-day-and-time');
     for (let i = 0; i < checkboxes.length; i++) {
@@ -89,6 +90,27 @@ document.querySelector('.activities').addEventListener('change', (e) => {
         totalCost -= parseInt(clicked.getAttribute('data-cost'));
     }
 })
+
+let totalInitializer = 0;
+
+//create payment total visual
+activityBoxes.addEventListener('change', (e) => {
+    if (totalInitializer === 0) {
+        const paymentDiv = document.createElement('span');
+        paymentDiv.textContent = `Total Cost: $${totalCost}`;
+        paymentDiv.id = 'payment-span';
+        activityBoxes.appendChild(paymentDiv);
+        totalInitializer += 1;
+    } else if (totalCost === 0) {
+        paymentDiv = document.getElementById('payment-span');
+        paymentDiv.hidden = true;
+    } else {
+        paymentDiv.hidden = false;
+        paymentDiv = document.getElementById('payment-span');
+        paymentDiv.textContent = `Total Cost: $${totalCost}`;
+    }
+})
+
 
 //Modifies payment section
 function formatDiv(text) {
@@ -122,6 +144,7 @@ paymentSelection.addEventListener('change', (e) => {
     }
 
 })
+
 
 //runtime
 pageLoad();
