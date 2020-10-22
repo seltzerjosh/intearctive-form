@@ -64,8 +64,10 @@ designDropdown.addEventListener('change', (event) => {
 designDropdown.addEventListener('change', (e) => {
     if (e.target[e.target.selectedIndex].value === 'Select Theme') {
         document.getElementById('not-chosen').text = 'Choose a Design';
+        document.getElementById('color').hidden = true;
     } else {
         document.getElementById('not-chosen').text = 'Choose a Color';
+        document.getElementById('color').hidden = false;
     }
 })
 
@@ -149,4 +151,4 @@ paymentSelection.addEventListener('change', (e) => {
 //runtime
 pageLoad();
 modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
-
+document.getElementById('color').hidden = true;
