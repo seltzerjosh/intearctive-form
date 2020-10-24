@@ -3,6 +3,7 @@ const userName = document.getElementById('name');
 const userTitle = document.getElementById('title');
 const otherTitle = document.getElementById('other-title');
 const otherTitleLabel = otherTitle.previousElementSibling;
+const form = document.querySelector('form');
 //Make variable for the cost of selected events
 let totalCost = 0;
 
@@ -17,6 +18,7 @@ function pageLoad() {
 userTitle.addEventListener('change', (event) => {
     if (userTitle.value !== 'other') {
         otherTitleLabel.style.display = 'none';
+
         otherTitle.style.display = 'none';
         otherTitle.value = '';
     } else {
@@ -149,11 +151,49 @@ paymentSelection.addEventListener('change', (e) => {
 
 })
 
+/*Form Validation*/
+//fields
+
+//Name field can't be blank
+function validUsername() {
+    const regex = /\w+/;
+    usernameInput = userName.value;
+    return regex.test(usernameInput);
+}
+
+//email field must be \w@\w.\w
+function validEmail() {
+    const regex = /\w+@[a-z0-9]+[\.\w+]+/i;
+    const email = document.getElementById('mail');
+    emailInput = email.value;
+    return regex.test(emailInput);
+}
+
+//usercheck boxes >0 selected
+function validCheckboxes() {
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//Credit card # valid 13-16 digit
+
+//zip code 5 digit
+
+//cvv 3 digit number
+
+//validation function
+    form.addEventListener('submit', (e) => {
+        console.log('submit functional');
+        e.preventDefault();
+    })
+
 
 //runtime
-pageLoad();
-modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
-document.getElementById('color').hidden = true;
-document.getElementById('color').previousElementSibling.hidden = true;
-
-
+    pageLoad();
+    modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
+    document.getElementById('color').hidden = true;
+    document.getElementById('color').previousElementSibling.hidden = true;
