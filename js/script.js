@@ -157,13 +157,13 @@ paymentSelection.addEventListener('change', (e) => {
 //Name field can't be blank
 function validUsername() {
     const regex = /\w+/;
-    usernameInput = userName.value;
+    const usernameInput = userName.value;
     return regex.test(usernameInput);
 }
 
 //email field must be \w@\w.\w
 function validEmail() {
-    const regex = /\w+@[a-z0-9]+[\.\w+]+/i;
+    const regex = /^\w+@[a-z0-9]+\.\w+$/i;
     const email = document.getElementById('mail');
     emailInput = email.value;
     return regex.test(emailInput);
@@ -183,7 +183,7 @@ function validCheckboxes() {
 function validCc() {
     const regex = /^\d{13,16}$/;
     const cc = document.getElementById('cc-num');
-    ccInput = cc.value;
+    const ccInput = cc.value;
     return regex.test(ccInput);
 }
 
@@ -207,18 +207,14 @@ function validCvv() {
 form.addEventListener('submit', (e) => {
     if (!(validUsername() && validEmail() && validCheckboxes())) {
         e.preventDefault();
-        console.log('username email or checkboxes error')
     } else if (paymentSelection[0].selected) {
         if (!(validCc() && validZip() && validCvv())) {
             e.preventDefault();
-            console.log("credit card error")
         }
     }
 })
 
-//error messages
-
-
+//error messages creation function
 function createErrors(text, target) {
     const errorMessage = document.createElement('span');
     errorMessage.textContent = text;
@@ -233,12 +229,82 @@ function createErrors(text, target) {
     target.insertAdjacentElement('beforebegin', errorMessage);
 }
 
+//Create error messages
 createErrors('Invalid username', userName);
 createErrors('Invalid email address', document.getElementById('mail'));
 createErrors('Check at least one activity', activityBoxes.nextElementSibling);
 createErrors('Must be 13-16 digit credit card number', document.getElementById('cc-num'));
 createErrors('5 digit zip code', document.getElementById('zip'));
 createErrors('3 digit CVV code', document.getElementById('cvv'));
+
+//show hide errors
+function displayErrors(id, func) {
+    const errorMessage = document.getElementById(`${id}-error`);
+    const target = document.getElementById(`${id}`);
+    //const funct = func();
+    if (func()) {
+        errorMessage.style.display = 'none';
+    } else {
+        errorMessage.style.display = 'block';
+    }
+    return func();
+}
+
+//valid username upon input or submit
+userName.addEventListener("input", (e) => {
+    displayErrors('name', validUsername);
+});
+form.addEventListener("submit", (e) => {
+    displayErrors('name', validUsername);
+});
+
+//valid email upon input or submit
+const mail = document.getElementById('mail');
+mail.addEventListener("input", (e) => {
+    displayErrors('mail', validEmail);
+});
+
+form.addEventListener("submit", (e) => {
+    displayErrors('mail', validEmail);
+});
+//at least one checkbox upon input or submit
+activityBoxes.addEventListener("input", (e) => {
+    displayErrors('checkbox', validCheckboxes);
+});
+
+form.addEventListener("submit", (e) => {
+    displayErrors('checkbox', validCheckboxes);
+});
+//credit card upon input or submit
+//cc number
+const ccInputs = document.getElementById('cc-num');
+ccInputs.addEventListener("input", (e) => {
+    displayErrors('cc-num', validCc);
+});
+
+form.addEventListener("submit", (e) => {
+    displayErrors('cc-num', validCc);
+});
+
+//zip error
+const zips = document.getElementById('zip');
+zips.addEventListener("input", (e) => {
+    displayErrors('zip', validZip);
+});
+
+form.addEventListener("submit", (e) => {
+    displayErrors('zip', validZip);
+});
+
+//cvv error
+const cvvs = document.getElementById('cvv');
+cvvs.addEventListener("input", (e) => {
+    displayErrors('cvv', validCvv);
+});
+
+form.addEventListener("submit", (e) => {
+    displayErrors('cvv', validCvv);
+});
 
 
 
