@@ -166,6 +166,11 @@ function validEmail() {
     const regex = /^\w+@[a-z0-9]+\.\w+$/i;
     const email = document.getElementById('mail');
     emailInput = email.value;
+    if (!emailInput) {
+        document.getElementById('mail-error').textContent = 'Please fill in email address';
+    } else {
+        document.getElementById('mail-error').textContent = 'Invalid email address';
+    }
     return regex.test(emailInput);
 }
 
@@ -275,8 +280,7 @@ activityBoxes.addEventListener("input", (e) => {
 form.addEventListener("submit", (e) => {
     displayErrors('checkbox', validCheckboxes);
 });
-//credit card upon input or submit
-//cc number
+//credit card error
 const ccInputs = document.getElementById('cc-num');
 ccInputs.addEventListener("input", (e) => {
     displayErrors('cc-num', validCc);
@@ -305,7 +309,6 @@ cvvs.addEventListener("input", (e) => {
 form.addEventListener("submit", (e) => {
     displayErrors('cvv', validCvv);
 });
-
 
 
 //runtime
