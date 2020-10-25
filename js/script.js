@@ -180,20 +180,45 @@ function validCheckboxes() {
 }
 
 //Credit card # valid 13-16 digit
+function validCc() {
+    const regex = /^\d{13,16}$/;
+    const cc = document.getElementById('cc-num');
+    ccInput = cc.value;
+    return regex.test(ccInput);
+}
 
 //zip code 5 digit
+function validZip() {
+    const regex = /^\d{5}$/;
+    const zip = document.getElementById('zip');
+    zipInput = zip.value;
+    return regex.test(zipInput);
+}
 
 //cvv 3 digit number
+function validCvv() {
+    const regex = /^\d{3}$/;
+    const cvv = document.getElementById('cvv');
+    cvvInput = cvv.value;
+    return regex.test(cvvInput);
+}
 
 //validation function
-    form.addEventListener('submit', (e) => {
-        console.log('submit functional');
+form.addEventListener('submit', (e) => {
+    if (!(validUsername() && validEmail() && validCheckboxes())) {
         e.preventDefault();
-    })
+        console.log('username email or checkboxes error')
+    } else if (paymentSelection[0].selected) {
+        if (!(validCc() && validZip() && validCvv())) {
+            e.preventDefault();
+            console.log("credit card error")
+        }
+    }
+})
 
 
 //runtime
-    pageLoad();
-    modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
-    document.getElementById('color').hidden = true;
-    document.getElementById('color').previousElementSibling.hidden = true;
+pageLoad();
+modifyColorOptions(colorDropdown, 'Choose a Design', 'not-chosen');
+document.getElementById('color').hidden = true;
+document.getElementById('color').previousElementSibling.hidden = true;
