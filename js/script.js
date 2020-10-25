@@ -108,11 +108,11 @@ activityBoxes.addEventListener('change', (e) => {
         activityBoxes.appendChild(paymentDiv);
         totalInitializer += 1;
     } else if (totalCost === 0) {
-        paymentDiv = document.getElementById('payment-span');
+        const paymentDiv = document.getElementById('payment-span');
         paymentDiv.hidden = true;
     } else {
+        const paymentDiv = document.getElementById('payment-span');
         paymentDiv.hidden = false;
-        paymentDiv = document.getElementById('payment-span');
         paymentDiv.textContent = `Total Cost: $${totalCost}`;
     }
 })
@@ -215,6 +215,31 @@ form.addEventListener('submit', (e) => {
         }
     }
 })
+
+//error messages
+
+
+function createErrors(text, target) {
+    const errorMessage = document.createElement('span');
+    errorMessage.textContent = text;
+    if (target.id) {
+        errorMessage.id = target.id + '-error';
+    } else {
+        errorMessage.id = 'checkbox-error';
+    }
+    //add hide
+    errorMessage.style.color = 'red';
+    errorMessage.style.display = 'none';
+    target.insertAdjacentElement('beforebegin', errorMessage);
+}
+
+createErrors('Invalid username', userName);
+createErrors('Invalid email address', document.getElementById('mail'));
+createErrors('Check at least one activity', activityBoxes.nextElementSibling);
+createErrors('Must be 13-16 digit credit card number', document.getElementById('cc-num'));
+createErrors('5 digit zip code', document.getElementById('zip'));
+createErrors('3 digit CVV code', document.getElementById('cvv'));
+
 
 
 //runtime
