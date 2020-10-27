@@ -163,7 +163,7 @@ function validUsername() {
 
 //email field must be \w@\w.\w
 function validEmail() {
-    const regex = /^\w+@[a-z0-9]+\.\w+$/i;
+    const regex = /^\w+@[a-z0-9]+\.\w{2,}$/i;
     const email = document.getElementById('mail');
     emailInput = email.value;
     if (!emailInput) {
